@@ -31,7 +31,7 @@ public class MixinTitleScreen {
             int height = sc.height / 4 + 132;
             int playerX = sc.width / 2 - 160;
             if (config.left.visible)
-                InventoryScreen.drawEntity(context, playerX - 25 + config.left.x, height - 70 + config.left.y, playerX + 25 + config.left.x, height + config.left.y, (int) (30 * config.left.scale), 0, mouseX, mouseY, player);
+                InventoryScreen.drawEntity(context, playerX - 100 + config.left.x, (int) (height - 70 * config.left.scale + config.left.y), playerX + 100 + config.left.x, height + config.left.y, (int) (30 * config.left.scale), 0, mouseX, mouseY, player);
             int entityX = sc.width / 2 + 160;
             LivingEntity livingEntity = RenderHelper.livingEntity;
             if (livingEntity != null && config.right.visible) {
