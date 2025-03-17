@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Random;
 
 public class RenderHelper {
+    public static boolean enableLeft = true, enableRight = true;
     private static final Random RANDOM = new Random();
     public static LivingEntity livingEntity = null;
     public static boolean foxRotate = false, isNeoForge = false;
@@ -33,7 +34,13 @@ public class RenderHelper {
     }
 
     public static void endClientTick() {
-        if (livingEntity == null) {
+        try {
+            DummyClientWorld.getInstance();
+        } catch (Exception e) {
+            enableLeft = enableRight = false;
+            TitleScreenMobs.LOGGER.error("Failed to create fake world, disable title screen mobs rendering.", e);
+        }
+        if (enableRight && livingEntity == null) {
             Entity entity = ALLOW_ENTITIES.get(RANDOM.nextInt(ALLOW_ENTITIES.size())).create(DummyClientWorld.getInstance());
             if (entity instanceof LivingEntity) livingEntity = (LivingEntity) entity;
         }

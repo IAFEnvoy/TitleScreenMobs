@@ -8,6 +8,8 @@ import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.network.ClientConnectionState;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ServerInfo;
+import net.minecraft.client.session.telemetry.TelemetrySender;
+import net.minecraft.client.session.telemetry.WorldSession;
 import net.minecraft.entity.damage.DamageScaling;
 import net.minecraft.entity.damage.DamageType;
 import net.minecraft.network.ClientConnection;
@@ -111,7 +113,7 @@ public class DummyClientPlayNetworkHandler extends ClientPlayNetworkHandler {
                 new ClientConnection(NetworkSide.CLIENTBOUND),
                 new ClientConnectionState(
                         MinecraftClient.getInstance().getGameProfile(),
-                        MinecraftClient.getInstance().getTelemetryManager().createWorldSession(true, Duration.ZERO, null),
+                        new WorldSession(TelemetrySender.NOOP, true, Duration.ZERO, null),
                         cursedRegistryManager.toImmutable(),
                         FeatureSet.of(FeatureFlags.VANILLA),
                         "",
