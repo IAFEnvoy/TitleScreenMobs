@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Random;
 
 public class RenderHelper {
+    public static boolean enableLeft = true, enableRight = true;
     private static final Random RANDOM = new Random();
     public static LivingEntity livingEntity = null;
     public static boolean foxRotate = false, isNeoForge = false;
@@ -30,10 +31,16 @@ public class RenderHelper {
         if (collect.isEmpty())
             collect = Registries.ENTITY_TYPE.stream().filter((e) -> !TsmConfig.getInstance().blacklist.contains(Registries.ENTITY_TYPE.getId(e).toString())).toList();
         ALLOW_ENTITIES = collect;
+        try {
+            DummyClientWorld.getInstance();
+        } catch (Exception e) {
+            enableLeft = enableRight = false;
+            TitleScreenMobs.LOGGER.error("Failed to create fake world, disable title screen mobs rendering.", e);
+        }
     }
 
     public static void endClientTick() {
-        if (MinecraftClient.getInstance().currentScreen instanceof TitleScreen && livingEntity == null) {
+        if (enableRight && MinecraftClient.getInstance().currentScreen instanceof TitleScreen && livingEntity == null) {
             Entity entity = ALLOW_ENTITIES.get(RANDOM.nextInt(ALLOW_ENTITIES.size())).create(DummyClientWorld.getInstance());
             if (entity instanceof LivingEntity) livingEntity = (LivingEntity) entity;
         } else foxRotate = false;
