@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Random;
 
 public class RenderHelper {
+    public static boolean enableLeft = true, enableRight = true;
     private static final Random RANDOM = new Random();
     public static LivingEntity livingEntity = null;
     public static boolean foxRotate = false, isNeoForge = false;
@@ -30,17 +31,23 @@ public class RenderHelper {
         if (collect.isEmpty())
             collect = Registries.ENTITY_TYPE.stream().filter((e) -> !TsmConfig.getInstance().blacklist.contains(Registries.ENTITY_TYPE.getId(e).toString())).toList();
         ALLOW_ENTITIES = collect;
+        try {
+            DummyClientWorld.getInstance();
+        } catch (Exception e) {
+            enableLeft = enableRight = false;
+            TitleScreenMobs.LOGGER.error("Failed to create fake world, disable title screen mobs rendering.", e);
+        }
     }
 
     public static void endClientTick() {
-        if (livingEntity == null) {
+        if (enableRight && livingEntity == null) {
             Entity entity = ALLOW_ENTITIES.get(RANDOM.nextInt(ALLOW_ENTITIES.size())).create(DummyClientWorld.getInstance());
             if (entity instanceof LivingEntity) livingEntity = (LivingEntity) entity;
         }
         if (!(MinecraftClient.getInstance().currentScreen instanceof TitleScreen)) foxRotate = false;
     }
 
-    public static void renderEntity(MatrixStack matrices, int x, int y, int size, float mouseX, float mouseY, LivingEntity entity,float scale) {
+    public static void renderEntity(MatrixStack matrices, int x, int y, int size, float mouseX, float mouseY, LivingEntity entity, float scale) {
         float f = (float) Math.atan(mouseX / 40.0F);
         float g = (float) Math.atan(mouseY / 40.0F);
         matrices.push();
@@ -87,7 +94,7 @@ public class RenderHelper {
             }
             matrices.scale((float) (width / entity.getBoundingBox().getLengthX()), (float) (width / entity.getBoundingBox().getLengthX()), (float) (width / entity.getBoundingBox().getLengthX()));
             matrices.push();
-            matrices.scale(scale,scale,scale);
+            matrices.scale(scale, scale, scale);
             entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrices, immediate, 15728880);
             matrices.pop();
         });

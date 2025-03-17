@@ -1,6 +1,7 @@
 package com.iafenvoy.tsm.mixin;
 
 import com.iafenvoy.tsm.RenderHelper;
+import com.iafenvoy.tsm.TitleScreenMobs;
 import com.iafenvoy.tsm.config.TsmConfig;
 import com.iafenvoy.tsm.cursed.DummyClientPlayerEntity;
 import net.minecraft.client.MinecraftClient;
@@ -30,16 +31,22 @@ public class MixinTitleScreen {
             ClientPlayerEntity player = DummyClientPlayerEntity.getInstance();
             int height = sc.height / 4 + 132;
             int playerX = sc.width / 2 - 160;
-            if (config.left.visible)
-                InventoryScreen.drawEntity(context, playerX - 25 + config.left.x, height - 70 + config.left.y, playerX + 25 + config.left.x, height + config.left.y, (int) (30 * config.left.scale), 0, mouseX, mouseY, player);
+            if (config.left.visible && RenderHelper.enableLeft)
+                try {
+                    InventoryScreen.drawEntity(context, playerX - 25 + config.left.x, height - 70 + config.left.y, playerX + 25 + config.left.x, height + config.left.y, (int) (30 * config.left.scale), 0, mouseX, mouseY, player);
+                } catch (Exception e) {
+                    RenderHelper.enableLeft = false;
+                    TitleScreenMobs.LOGGER.error("Failed to render player on title screen, disabling");
+                }
             int entityX = sc.width / 2 + 160;
             LivingEntity livingEntity = RenderHelper.livingEntity;
-            if (livingEntity != null && config.right.visible) {
+            if (livingEntity != null && config.right.visible && RenderHelper.enableRight) {
                 try {
                     RenderHelper.renderEntity(context.getMatrices(), entityX + config.right.x, height + config.right.y, 30, -mouseX + entityX, -mouseY + height - 30, livingEntity, config.right.scale);
                 } catch (Exception e) {
                     RenderHelper.livingEntity = null;
                     RenderHelper.foxRotate = false;
+                    RenderHelper.enableRight = false;
                 }
             }
         }
