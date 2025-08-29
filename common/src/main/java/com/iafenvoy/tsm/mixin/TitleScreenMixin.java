@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(TitleScreen.class)
 public class TitleScreenMixin {
@@ -33,7 +34,7 @@ public class TitleScreenMixin {
             int playerX = sc.width / 2 - 160;
             if (config.generals.leftVisible.getValue() && RenderHelper.enableLeft)
                 try {
-                    InventoryScreen.drawEntity(context, playerX + config.generals.leftXOffset.getValue(), height + config.generals.leftYOffset.getValue(), (int) (30 * config.generals.leftScale.getValue()), -mouseX + playerX, -mouseY + height - 30, player);
+                    InventoryScreen.drawEntity(context, playerX - 100 + config.generals.leftXOffset.getValue(), (int) (height - 70.0f * config.generals.leftScale.getValue() + config.generals.leftYOffset.getValue()), playerX + 100 + config.generals.leftXOffset.getValue(), height + config.generals.leftYOffset.getValue(), (int)(30.0f * config.generals.leftScale.getValue()), 0.0f, mouseX, mouseY, player);
                 } catch (Exception e) {
                     RenderHelper.enableLeft = false;
                     TitleScreenMobs.LOGGER.error("Failed to render player on title screen, disabling", e);
@@ -51,6 +52,17 @@ public class TitleScreenMixin {
                     ToastHelper.sendWarningWithCheck();
                 }
             }
+        }
+    }
+
+    @Inject(method = "mouseClicked", at = @At("RETURN"))
+    private void handleFoxClick(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+        TitleScreen sc = (TitleScreen) (Object) this;
+        if (MinecraftClient.getInstance() != null) {
+            int height = sc.height / 4 + 132;
+            int entityX = sc.width / 2 + 160;
+            if (mouseX >= entityX - 10 && mouseY >= height - 20 && mouseX <= entityX + 10 && mouseY <= height)
+                RenderHelper.foxRotate = true;
         }
     }
 }

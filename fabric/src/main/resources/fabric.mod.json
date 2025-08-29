@@ -8,7 +8,7 @@
     "IAFEnvoy"
   ],
   "license": "Apache-2.0",
-  "icon": "logo.jpg",
+  "icon": "logo.png",
   "environment": "client",
   "entrypoints": {
     "client": [

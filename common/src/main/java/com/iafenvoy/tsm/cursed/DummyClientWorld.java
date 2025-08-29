@@ -15,6 +15,7 @@ import net.minecraft.world.dimension.DimensionTypes;
 
 import java.util.OptionalLong;
 
+//Code from CICADA under MIT license
 public class DummyClientWorld extends ClientWorld {
     private static DummyClientWorld instance;
 
