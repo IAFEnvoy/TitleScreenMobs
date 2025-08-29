@@ -36,7 +36,7 @@ public class MixinTitleScreen {
                     InventoryScreen.drawEntity(context, playerX - 100 + config.left.x, (int) (height - 70 * config.left.scale + config.left.y), playerX + 100 + config.left.x, height + config.left.y, (int) (30 * config.left.scale), 0, mouseX, mouseY, player);
                 } catch (Exception e) {
                     RenderHelper.enableLeft = false;
-                    TitleScreenMobs.LOGGER.error("Failed to render player on title screen, disabling");
+                    TitleScreenMobs.LOGGER.error("Failed to render player on title screen, disabling", e);
                 }
             int entityX = sc.width / 2 + 160;
             LivingEntity livingEntity = RenderHelper.livingEntity;
