@@ -27,20 +27,21 @@ public class RenderHelper {
     private static final List<? extends EntityType<?>> ALLOW_ENTITIES;
 
     static {
-        List<? extends EntityType<?>> collect = TsmConfig.getInstance().whitelist.stream().map(Identifier::tryParse).map(Registries.ENTITY_TYPE::get).toList();
+        List<? extends EntityType<?>> collect = TsmConfig.INSTANCE.generals.whitelist.getValue().stream().map(Identifier::tryParse).map(Registries.ENTITY_TYPE::get).toList();
         if (collect.isEmpty())
-            collect = Registries.ENTITY_TYPE.stream().filter((e) -> !TsmConfig.getInstance().blacklist.contains(Registries.ENTITY_TYPE.getId(e).toString())).toList();
+            collect = Registries.ENTITY_TYPE.stream().filter((e) -> !TsmConfig.INSTANCE.generals.blacklist.getValue().contains(Registries.ENTITY_TYPE.getId(e).toString())).toList();
         ALLOW_ENTITIES = collect;
-    }
-
-    public static void endClientTick() {
         try {
             DummyClientWorld.getInstance();
         } catch (Exception e) {
             enableLeft = enableRight = false;
             TitleScreenMobs.LOGGER.error("Failed to create fake world, disable title screen mobs rendering.", e);
+            ToastHelper.sendWarningWithCheck();
         }
-        if (enableRight && livingEntity == null) {
+    }
+
+    public static void endClientTick() {
+        if (enableRight && MinecraftClient.getInstance().currentScreen instanceof TitleScreen && livingEntity == null) {
             Entity entity = ALLOW_ENTITIES.get(RANDOM.nextInt(ALLOW_ENTITIES.size())).create(DummyClientWorld.getInstance());
             if (entity instanceof LivingEntity) livingEntity = (LivingEntity) entity;
         }

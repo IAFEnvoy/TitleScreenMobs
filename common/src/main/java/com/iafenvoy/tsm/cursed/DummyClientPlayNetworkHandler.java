@@ -32,7 +32,6 @@ import java.util.Optional;
 import java.util.OptionalLong;
 import java.util.stream.Stream;
 
-//Code from CICADA under MIT license
 public class DummyClientPlayNetworkHandler extends ClientPlayNetworkHandler {
     public static final Registry<DimensionType> CURSED_DIMENSION_TYPE_REGISTRY = new SimpleRegistry<>(RegistryKeys.DIMENSION_TYPE, Lifecycle.stable());
 

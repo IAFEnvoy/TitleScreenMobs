@@ -6,15 +6,15 @@ import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.util.DefaultSkinHelper;
 import net.minecraft.client.util.SkinTextures;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.player.PlayerModelPart;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 import java.util.function.Function;
 
-//Code from CICADA under MIT license
 public class DummyClientPlayerEntity extends ClientPlayerEntity {
     private static DummyClientPlayerEntity instance;
     private SkinTextures skinTextures = null;

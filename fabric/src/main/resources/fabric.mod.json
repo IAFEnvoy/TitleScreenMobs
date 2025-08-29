@@ -22,8 +22,7 @@
     "title_screen_mobs.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.16.3",
     "minecraft": "1.21.x",
-    "java": ">=21"
+    "jupiter": ">=2"
   }
 }
