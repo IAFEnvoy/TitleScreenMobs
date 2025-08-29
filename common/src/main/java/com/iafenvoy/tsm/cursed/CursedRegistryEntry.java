@@ -35,7 +35,7 @@ public record CursedRegistryEntry<T>(T value, RegistryKey<? extends Registry<T>>
     }
 
     @Override
-    public boolean matches(Predicate<RegistryKey<T>> predicate) {
+    public boolean matches(RegistryEntry<T> entry) {
         return false;
     }
 
@@ -46,7 +46,7 @@ public record CursedRegistryEntry<T>(T value, RegistryKey<? extends Registry<T>>
 
     @Override
     public Optional<RegistryKey<T>> getKey() {
-        return Optional.of(RegistryKey.of(key, new Identifier(TitleScreenMobs.MOD_ID, "dummy")));
+        return Optional.of(RegistryKey.of(key, Identifier.of(TitleScreenMobs.MOD_ID, "dummy")));
     }
 
     @Override

@@ -44,7 +44,8 @@ public class RenderHelper {
         if (enableRight && MinecraftClient.getInstance().currentScreen instanceof TitleScreen && livingEntity == null) {
             Entity entity = ALLOW_ENTITIES.get(RANDOM.nextInt(ALLOW_ENTITIES.size())).create(DummyClientWorld.getInstance());
             if (entity instanceof LivingEntity) livingEntity = (LivingEntity) entity;
-        } else foxRotate = false;
+        }
+        if (!(MinecraftClient.getInstance().currentScreen instanceof TitleScreen)) foxRotate = false;
     }
 
     public static void renderEntity(MatrixStack matrices, int x, int y, int size, float mouseX, float mouseY, LivingEntity entity, float scale) {
@@ -83,16 +84,16 @@ public class RenderHelper {
         entityRenderDispatcher.setRenderShadows(false);
         VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
         RenderSystem.runAsFancy(() -> {
-            double width = entity.getBoundingBox().getXLength();
-            double height = entity.getBoundingBox().getYLength();
+            double width = entity.getBoundingBox().getLengthX();
+            double height = entity.getBoundingBox().getLengthY();
             if (width > 0.6) {
                 width *= 1f / ((float) width / 0.6f);
-                height = entity.getBoundingBox().getYLength() * (width / entity.getBoundingBox().getXLength());
+                height = entity.getBoundingBox().getLengthY() * (width / entity.getBoundingBox().getLengthX());
             }
             if (height > 2.0) {
                 width *= 1f / (height / 2f);
             }
-            matrices.scale((float) (width / entity.getBoundingBox().getXLength()), (float) (width / entity.getBoundingBox().getXLength()), (float) (width / entity.getBoundingBox().getXLength()));
+            matrices.scale((float) (width / entity.getBoundingBox().getLengthX()), (float) (width / entity.getBoundingBox().getLengthX()), (float) (width / entity.getBoundingBox().getLengthX()));
             matrices.push();
             matrices.scale(scale, scale, scale);
             entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrices, immediate, 15728880);

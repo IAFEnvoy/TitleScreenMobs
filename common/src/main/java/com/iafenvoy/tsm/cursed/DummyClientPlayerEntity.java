@@ -1,13 +1,14 @@
 package com.iafenvoy.tsm.cursed;
 
-import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.client.util.DefaultSkinHelper;
+import net.minecraft.client.util.SkinTextures;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,8 +17,7 @@ import java.util.function.Function;
 
 public class DummyClientPlayerEntity extends ClientPlayerEntity {
     private static DummyClientPlayerEntity instance;
-    private Identifier skinIdentifier = null, capeIdentifier = null;
-    private String model = null;
+    private SkinTextures skinTextures = null;
     public Function<EquipmentSlot, ItemStack> equippedStackSupplier = slot -> ItemStack.EMPTY;
 
     public static DummyClientPlayerEntity getInstance() {
@@ -28,17 +28,7 @@ public class DummyClientPlayerEntity extends ClientPlayerEntity {
     private DummyClientPlayerEntity() {
         super(MinecraftClient.getInstance(), DummyClientWorld.getInstance(), DummyClientPlayNetworkHandler.getInstance(), null, null, false, false);
         setUuid(UUID.randomUUID());
-        MinecraftClient.getInstance().getSkinProvider().loadSkin(getGameProfile(), (type, identifier, texture) -> {
-            if (type == MinecraftProfileTexture.Type.SKIN) {
-                skinIdentifier = identifier;
-                model = texture.getMetadata("model");
-                if (model == null) {
-                    model = "default";
-                }
-            }
-            if (type == MinecraftProfileTexture.Type.CAPE)
-                capeIdentifier = identifier;
-        }, true);
+        MinecraftClient.getInstance().getSkinProvider().fetchSkinTextures(getGameProfile()).thenAccept((textures) -> skinTextures = textures);
     }
 
     @Override
@@ -47,28 +37,8 @@ public class DummyClientPlayerEntity extends ClientPlayerEntity {
     }
 
     @Override
-    public boolean hasSkinTexture() {
-        return true;
-    }
-
-    @Override
-    public Identifier getSkinTexture() {
-        return skinIdentifier == null ? DefaultSkinHelper.getTexture(getUuid()) : skinIdentifier;
-    }
-
-    @Override
-    public boolean canRenderCapeTexture() {
-        return true;
-    }
-
-    @Override
-    public @Nullable Identifier getCapeTexture() {
-        return this.capeIdentifier;
-    }
-
-    @Override
-    public String getModel() {
-        return model == null ? DefaultSkinHelper.getModel(getUuid()) : model;
+    public SkinTextures getSkinTextures() {
+        return skinTextures == null ? DefaultSkinHelper.getSkinTextures(this.getUuid()) : skinTextures;
     }
 
     @Nullable
@@ -90,5 +60,10 @@ public class DummyClientPlayerEntity extends ClientPlayerEntity {
     @Override
     public ItemStack getEquippedStack(EquipmentSlot slot) {
         return equippedStackSupplier.apply(slot);
+    }
+
+    @Override
+    public Text getName() {
+        return super.getName();
     }
 }
