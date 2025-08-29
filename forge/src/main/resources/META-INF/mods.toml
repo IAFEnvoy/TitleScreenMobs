@@ -27,3 +27,9 @@ versionRange = "[1.20,1.21)"
 ordering = "NONE"
 side = "BOTH"
 
+[[dependencies.title_screen_mobs]]
+modId = "jupiter"
+mandatory = true
+versionRange = "[2,)"
+ordering = "NONE"
+side = "BOTH"

@@ -8,16 +8,6 @@ This mod add mobs render in title screen.
 
 ## Configuration
 
-Config file will automatically generate at first launch.
+Config file will automatically generate at first launch. You can configure in-game with modmenu.
 
-```json5
-{
-  //This will force override blacklist, leave blank to disable this
-  "whitelist": [],
-  "blacklist": [
-    "minecraft:wither",
-    "minecraft:ender_dragon"
-  ]
-}
-```
-
+**Tip: If conflict with other mod, there will be an in-game toast. You can disable in config.**

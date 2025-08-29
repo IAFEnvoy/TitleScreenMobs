@@ -13,7 +13,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-//Code from CICADA under MIT license
 public record CursedRegistryEntry<T>(T value, RegistryKey<? extends Registry<T>> key) implements RegistryEntry<T> {
     @Override
     public boolean hasKeyAndValue() {
@@ -34,13 +33,6 @@ public record CursedRegistryEntry<T>(T value, RegistryKey<? extends Registry<T>>
     public boolean isIn(TagKey<T> tag) {
         return false;
     }
-
-    /*? if >=1.20.5 {*/
-//    @Override
-//    public boolean matches(RegistryEntry<T> entry) {
-//        return false;
-//    }
-    /*?}*/
 
     @Override
     public boolean matches(Predicate<RegistryKey<T>> predicate) {

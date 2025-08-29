@@ -7,22 +7,17 @@ import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.render.entity.PlayerModelPart;
 import net.minecraft.client.util.DefaultSkinHelper;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 import java.util.function.Function;
 
-//Code from CICADA under MIT license
 public class DummyClientPlayerEntity extends ClientPlayerEntity {
     private static DummyClientPlayerEntity instance;
     private Identifier skinIdentifier = null, capeIdentifier = null;
     private String model = null;
-    private PlayerEntity player = null;
-    private Text name = null;
     public Function<EquipmentSlot, ItemStack> equippedStackSupplier = slot -> ItemStack.EMPTY;
 
     public static DummyClientPlayerEntity getInstance() {
@@ -94,18 +89,6 @@ public class DummyClientPlayerEntity extends ClientPlayerEntity {
 
     @Override
     public ItemStack getEquippedStack(EquipmentSlot slot) {
-        if (player != null) {
-            return player.getEquippedStack(slot);
-        }
         return equippedStackSupplier.apply(slot);
-    }
-
-    @Override
-    public Text getName() {
-        if (name == null) {
-            return super.getName();
-        } else {
-            return name;
-        }
     }
 }
