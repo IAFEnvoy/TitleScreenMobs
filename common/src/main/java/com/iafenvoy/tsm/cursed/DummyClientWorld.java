@@ -15,7 +15,6 @@ import net.minecraft.world.dimension.DimensionTypes;
 
 import java.util.OptionalLong;
 
-//Code from CICADA under MIT license
 public class DummyClientWorld extends ClientWorld {
     private static DummyClientWorld instance;
 
@@ -29,13 +28,13 @@ public class DummyClientWorld extends ClientWorld {
                 DummyClientPlayNetworkHandler.getInstance(),
                 new Properties(Difficulty.EASY, false, true),
                 RegistryKey.of(RegistryKeys.WORLD, Identifier.of(TitleScreenMobs.MOD_ID, "dummy")),
-                new CursedRegistryEntry<>(DummyDimensionType.getInstance(), RegistryKeys.DIMENSION_TYPE),
+                DummyClientPlayNetworkHandler.CURSED_DIMENSION_TYPE_REGISTRY.getOrThrow(RegistryKey.of(RegistryKeys.DIMENSION_TYPE, Identifier.of(TitleScreenMobs.MOD_ID, "dummy"))),
                 0,
                 0,
-                () -> MinecraftClient.getInstance().getProfiler(),
                 MinecraftClient.getInstance().worldRenderer,
                 false,
-                0L
+                0L,
+                60
         );
     }
 

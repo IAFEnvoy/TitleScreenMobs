@@ -13,7 +13,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-//Code from CICADA under MIT license
 public record CursedRegistryEntry<T>(T value, RegistryKey<? extends Registry<T>> key) implements RegistryEntry<T> {
     @Override
     public boolean hasKeyAndValue() {
@@ -58,11 +57,6 @@ public record CursedRegistryEntry<T>(T value, RegistryKey<? extends Registry<T>>
     @Override
     public Type getType() {
         return Type.DIRECT;
-    }
-
-    @Override
-    public String toString() {
-        return "CursedRegistryEntry(This is from CICADA, please report there for any issues caused){" + this.value + "}";
     }
 
     @Override

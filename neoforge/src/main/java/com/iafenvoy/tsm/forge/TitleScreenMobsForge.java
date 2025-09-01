@@ -13,7 +13,7 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 @Mod(TitleScreenMobs.MOD_ID)
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(Dist.CLIENT)
 public final class TitleScreenMobsForge {
     public TitleScreenMobsForge() {
         TitleScreenMobs.onInitializeClient();

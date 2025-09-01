@@ -2,7 +2,6 @@ package com.iafenvoy.tsm;
 
 import com.iafenvoy.tsm.config.TsmConfig;
 import com.iafenvoy.tsm.cursed.DummyClientWorld;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -11,6 +10,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
@@ -42,7 +42,7 @@ public class RenderHelper {
             ToastHelper.sendWarningWithCheck();
         }
         if (enableRight && MinecraftClient.getInstance().currentScreen instanceof TitleScreen && livingEntity == null) {
-            Entity entity = ALLOW_ENTITIES.get(RANDOM.nextInt(ALLOW_ENTITIES.size())).create(DummyClientWorld.getInstance());
+            Entity entity = ALLOW_ENTITIES.get(RANDOM.nextInt(ALLOW_ENTITIES.size())).create(DummyClientWorld.getInstance(), SpawnReason.MOB_SUMMONED);
             if (entity instanceof LivingEntity) livingEntity = (LivingEntity) entity;
         }
         if (!(MinecraftClient.getInstance().currentScreen instanceof TitleScreen)) foxRotate = false;
@@ -83,22 +83,22 @@ public class RenderHelper {
         entityRenderDispatcher.setRotation(quaternion2);
         entityRenderDispatcher.setRenderShadows(false);
         VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
-        RenderSystem.runAsFancy(() -> {
-            double width = entity.getBoundingBox().getLengthX();
-            double height = entity.getBoundingBox().getLengthY();
-            if (width > 0.6) {
-                width *= 1f / ((float) width / 0.6f);
-                height = entity.getBoundingBox().getLengthY() * (width / entity.getBoundingBox().getLengthX());
-            }
-            if (height > 2.0) {
-                width *= 1f / (height / 2f);
-            }
-            matrices.scale((float) (width / entity.getBoundingBox().getLengthX()), (float) (width / entity.getBoundingBox().getLengthX()), (float) (width / entity.getBoundingBox().getLengthX()));
-            matrices.push();
-            matrices.scale(scale, scale, scale);
-            entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, matrices, immediate, 15728880);
-            matrices.pop();
-        });
+
+        double width = entity.getBoundingBox().getLengthX();
+        double height = entity.getBoundingBox().getLengthY();
+        if (width > 0.6) {
+            width *= 1f / ((float) width / 0.6f);
+            height = entity.getBoundingBox().getLengthY() * (width / entity.getBoundingBox().getLengthX());
+        }
+        if (height > 2.0) {
+            width *= 1f / (height / 2f);
+        }
+        matrices.scale((float) (width / entity.getBoundingBox().getLengthX()), (float) (width / entity.getBoundingBox().getLengthX()), (float) (width / entity.getBoundingBox().getLengthX()));
+        matrices.push();
+        matrices.scale(scale, scale, scale);
+        entityRenderDispatcher.render(entity, 0.0D, 0.0D, 0.0D, 1.0F, matrices, immediate, 15728880);
+        matrices.pop();
+
         immediate.draw();
         entityRenderDispatcher.setRenderShadows(true);
         entity.bodyYaw = h;

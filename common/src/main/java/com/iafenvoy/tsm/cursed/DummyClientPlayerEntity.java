@@ -14,7 +14,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 import java.util.function.Function;
 
-//Code from CICADA under MIT license
 public class DummyClientPlayerEntity extends ClientPlayerEntity {
     private static DummyClientPlayerEntity instance;
     private SkinTextures skinTextures = null;
@@ -28,7 +27,7 @@ public class DummyClientPlayerEntity extends ClientPlayerEntity {
     private DummyClientPlayerEntity() {
         super(MinecraftClient.getInstance(), DummyClientWorld.getInstance(), DummyClientPlayNetworkHandler.getInstance(), null, null, false, false);
         setUuid(UUID.randomUUID());
-        MinecraftClient.getInstance().getSkinProvider().fetchSkinTextures(getGameProfile()).thenAccept((textures) -> skinTextures = textures);
+        MinecraftClient.getInstance().getSkinProvider().fetchSkinTextures(getGameProfile()).thenAccept(textures -> skinTextures = textures.orElse(DefaultSkinHelper.getSkinTextures(getGameProfile())));
     }
 
     @Override

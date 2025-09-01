@@ -10,11 +10,13 @@ import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.entity.damage.DamageScaling;
 import net.minecraft.entity.damage.DamageType;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.NetworkSide;
 import net.minecraft.registry.*;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.resource.featuretoggle.FeatureFlag;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.util.Identifier;
@@ -30,7 +32,6 @@ import java.util.Optional;
 import java.util.OptionalLong;
 import java.util.stream.Stream;
 
-//Code from CICADA under MIT license
 public class DummyClientPlayNetworkHandler extends ClientPlayNetworkHandler {
     public static final Registry<DimensionType> CURSED_DIMENSION_TYPE_REGISTRY = new SimpleRegistry<>(RegistryKeys.DIMENSION_TYPE, Lifecycle.stable());
 
@@ -66,18 +67,15 @@ public class DummyClientPlayNetworkHandler extends ClientPlayNetworkHandler {
         return instance;
     }
 
-    private static final Registry<Biome> cursedBiomeRegistry = new SimpleDefaultedRegistry<>("dummy", RegistryKeys.BIOME, Lifecycle.stable(), true) {
-        @Override
-        public RegistryEntry.Reference<Biome> entryOf(RegistryKey<Biome> key) {
-            return null;
-        }
-    };
+    private static final Registry<Biome> cursedBiomeRegistry = new CursedRegistry<>(RegistryKeys.BIOME, Identifier.of(TitleScreenMobs.MOD_ID, "fake_biomes"), null);
 
     private static final Registry<BannerPattern> cursedBannerRegistry = new SimpleDefaultedRegistry<>("dummy", RegistryKeys.BANNER_PATTERN, Lifecycle.stable(), true);
 
     private static final DynamicRegistryManager.Immutable cursedRegistryManager = new DynamicRegistryManager.Immutable() {
-        private final CursedRegistry<DamageType> damageTypes = new CursedRegistry<>(RegistryKeys.DAMAGE_TYPE, Identifier.of("fake_damage"),
+        private final CursedRegistry<DamageType> damageTypes = new CursedRegistry<>(RegistryKeys.DAMAGE_TYPE, Identifier.of(TitleScreenMobs.MOD_ID, "fake_damage"),
                 new DamageType("", DamageScaling.NEVER, 0));
+        private final CursedRegistry<Item> items = new CursedRegistry<>(RegistryKeys.ITEM, Identifier.of(TitleScreenMobs.MOD_ID, "fake_items"),
+                Items.AIR);
 
         @SuppressWarnings({"unchecked", "rawtypes"})
         @Override
@@ -94,9 +92,20 @@ public class DummyClientPlayNetworkHandler extends ClientPlayNetworkHandler {
             } else if (RegistryKeys.BANNER_PATTERN.equals(key)) {
                 // This fixes lithium compat post-1.20.5
                 return Optional.of(cursedBannerRegistry);
+            } else if (RegistryKeys.ITEM.equals(key)) {
+                return Optional.of(items);
             }
 
             return Optional.empty();
+        }
+
+        @SuppressWarnings({"rawtypes", "unchecked", "UnnecessaryLocalVariable"})
+        @Override
+        public <E> Registry<E> getOrThrow(RegistryKey<? extends Registry<? extends E>> key) {
+            return getOptional(key).orElseGet(() -> {
+                RegistryKey sillyKey = key;
+                return new CursedRegistry<>(sillyKey, Identifier.of(TitleScreenMobs.MOD_ID, "fake"), null);
+            });
         }
 
         @Override
@@ -112,14 +121,13 @@ public class DummyClientPlayNetworkHandler extends ClientPlayNetworkHandler {
                 new ClientConnectionState(
                         MinecraftClient.getInstance().getGameProfile(),
                         MinecraftClient.getInstance().getTelemetryManager().createWorldSession(true, Duration.ZERO, null),
-                        cursedRegistryManager.toImmutable(),
+                        cursedRegistryManager,
                         FeatureSet.of(FeatureFlags.VANILLA),
                         "",
                         new ServerInfo("", "", ServerInfo.ServerType.OTHER),
                         null,
                         Map.of(),
                         new ChatHud.ChatState(List.of(), List.of(), List.of()),
-                        false,
                         Map.of(),
                         net.minecraft.server.ServerLinks.EMPTY
                 )
