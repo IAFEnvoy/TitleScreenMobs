@@ -1,6 +1,6 @@
 package com.iafenvoy.tsm;
 
-import com.iafenvoy.tsm.cursed.DummyClientLevel;
+import com.iafenvoy.tsm.cursed.CursedClientLevel;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,16 +28,18 @@ public class RenderHelper {
     }
 
     public static void endClientTick() {
-        try {
-            DummyClientLevel.getInstance();
-        } catch (Exception e) {
-            enableLeft = enableRight = false;
-            TitleScreenMobs.LOGGER.error("Failed to create fake world, disable title screen mobs rendering.", e);
-            ToastHelper.sendWarningWithCheck();
-        }
-        if (enableRight && Minecraft.getInstance().screen instanceof TitleScreen && livingEntity == null) {
-            Entity entity = ALLOW_ENTITIES.get(RANDOM.nextInt(ALLOW_ENTITIES.size())).create(DummyClientLevel.getInstance(), EntitySpawnReason.MOB_SUMMONED);
-            if (entity instanceof LivingEntity) livingEntity = (LivingEntity) entity;
+        if (Minecraft.getInstance().screen instanceof TitleScreen) {
+            try {
+                CursedClientLevel.touch();
+            } catch (Exception e) {
+                enableLeft = enableRight = false;
+                TitleScreenMobs.LOGGER.error("Failed to create fake world, disable title screen mobs rendering.", e);
+                ToastHelper.sendWarningWithCheck();
+            }
+            if (enableRight && livingEntity == null) {
+                Entity entity = ALLOW_ENTITIES.get(RANDOM.nextInt(ALLOW_ENTITIES.size())).create(CursedClientLevel.INSTANCE, EntitySpawnReason.MOB_SUMMONED);
+                if (entity instanceof LivingEntity living) livingEntity = living;
+            }
         }
         if (!(Minecraft.getInstance().screen instanceof TitleScreen)) foxRotate = false;
     }

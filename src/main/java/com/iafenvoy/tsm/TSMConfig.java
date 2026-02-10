@@ -26,12 +26,12 @@ public class TSMConfig extends AutoInitConfigContainer {
         public final BooleanEntry leftVisible = BooleanEntry.builder(formatKey("left.visible"), true).key("left.visible").build();
         public final IntegerEntry leftXOffset = IntegerEntry.builder(formatKey("left.xOffset"), 0).key("left.xOffset").build();
         public final IntegerEntry leftYOffset = IntegerEntry.builder(formatKey("left.yOffset"), 0).key("left.yOffset").build();
-        public final DoubleEntry leftScale = DoubleEntry.builder(formatKey("left.scale"), 1).key("left.scale").build();
+        public final IntegerEntry leftScale = IntegerEntry.builder(formatKey("left.scale"), 30).key("left.scale").build();
         public final SeparatorEntry s2 = SeparatorEntry.builder().build();
         public final BooleanEntry rightVisible = BooleanEntry.builder(formatKey("right.visible"), true).key("right.visible").build();
         public final IntegerEntry rightXOffset = IntegerEntry.builder(formatKey("right.xOffset"), 0).key("right.xOffset").build();
         public final IntegerEntry rightYOffset = IntegerEntry.builder(formatKey("right.yOffset"), 0).key("right.yOffset").build();
-        public final DoubleEntry rightScale = DoubleEntry.builder(formatKey("right.scale"), 1).key("right.scale").build();
+        public final IntegerEntry rightScale = IntegerEntry.builder(formatKey("right.scale"), 30).key("right.scale").build();
         public final SeparatorEntry s3 = SeparatorEntry.builder().build();
         public final BooleanEntry sendWarning = BooleanEntry.builder(formatKey("sendWarning"), true).key("sendWarning").build();
 

@@ -13,20 +13,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
-import java.util.function.Function;
 
-public class DummyLocalPlayer extends LocalPlayer {
-    private static DummyLocalPlayer instance;
+public class CursedLocalPlayer extends LocalPlayer {
+    public static final CursedLocalPlayer INSTANCE = new CursedLocalPlayer();
     private PlayerSkin skinTextures = null;
-    public Function<EquipmentSlot, ItemStack> equippedStackSupplier = slot -> ItemStack.EMPTY;
 
-    public static DummyLocalPlayer getInstance() {
-        if (instance == null) instance = new DummyLocalPlayer();
-        return instance;
-    }
-
-    private DummyLocalPlayer() {
-        super(Minecraft.getInstance(), DummyClientLevel.getInstance(), DummyClientPacketListener.getInstance(), null, null, Input.EMPTY, false);
+    @SuppressWarnings("DataFlowIssue")
+    private CursedLocalPlayer() {
+        super(Minecraft.getInstance(), CursedClientLevel.INSTANCE, CursedClientPacketListener.INSTANCE, null, null, Input.EMPTY, false);
         this.setUUID(UUID.randomUUID());
         Minecraft.getInstance().getSkinManager().get(this.getGameProfile()).thenAccept(textures -> this.skinTextures = textures.orElse(DefaultPlayerSkin.get(this.getGameProfile())));
     }
@@ -59,6 +53,6 @@ public class DummyLocalPlayer extends LocalPlayer {
 
     @Override
     public @NotNull ItemStack getItemBySlot(EquipmentSlot slot) {
-        return this.equippedStackSupplier.apply(slot);
+        return ItemStack.EMPTY;
     }
 }

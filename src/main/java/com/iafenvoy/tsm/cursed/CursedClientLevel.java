@@ -8,20 +8,18 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Difficulty;
 
-public class DummyClientLevel extends ClientLevel {
-    private static DummyClientLevel instance;
+public class CursedClientLevel extends ClientLevel {
+    public static final CursedClientLevel INSTANCE = new CursedClientLevel();
 
-    public static DummyClientLevel getInstance() {
-        if (instance == null) instance = new DummyClientLevel();
-        return instance;
+    public static void touch() {
     }
 
-    private DummyClientLevel() {
+    private CursedClientLevel() {
         super(
-                DummyClientPacketListener.getInstance(),
+                CursedClientPacketListener.INSTANCE,
                 new ClientLevelData(Difficulty.EASY, false, true),
                 ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(TitleScreenMobs.MOD_ID, "dummy")),
-                DummyClientPacketListener.CURSED_DIMENSION_TYPE_REGISTRY.getOrThrow(ResourceKey.create(Registries.DIMENSION_TYPE, ResourceLocation.fromNamespaceAndPath(TitleScreenMobs.MOD_ID, "dummy"))),
+                CursedRegistries.CURSED_DIMENSION_TYPE_REGISTRY.getOrThrow(ResourceKey.create(Registries.DIMENSION_TYPE, ResourceLocation.fromNamespaceAndPath(TitleScreenMobs.MOD_ID, "dummy"))),
                 0,
                 0,
                 Minecraft.getInstance().levelRenderer,
