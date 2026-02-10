@@ -1,0 +1,17 @@
+{
+  "config.title_screen_mobs.general.blacklist": "Mob Blacklist",
+  "config.title_screen_mobs.general.left.scale": "Left Player Scale",
+  "config.title_screen_mobs.general.left.visible": "Left Player Visible",
+  "config.title_screen_mobs.general.left.xOffset": "Left Player X Offset",
+  "config.title_screen_mobs.general.left.yOffset": "Left Player Y Offset",
+  "config.title_screen_mobs.general.right.scale": "Right Mob Scale",
+  "config.title_screen_mobs.general.right.visible": "Right Mob Visible",
+  "config.title_screen_mobs.general.right.xOffset": "Right Mob X Offset",
+  "config.title_screen_mobs.general.right.yOffset": "Right Mob Y Offset",
+  "config.title_screen_mobs.general.sendWarning": "Display Warning",
+  "config.title_screen_mobs.general.title": "General",
+  "config.title_screen_mobs.general.whitelist": "Mob Whitelist",
+  "config.title_screen_mobs.title": "Title Screen Mobs Config",
+  "toast.title_screen_mobs.warning.description": "Check Log For More Info",
+  "toast.title_screen_mobs.warning.title": "Warning: TSM Render Meet Error!"
+}

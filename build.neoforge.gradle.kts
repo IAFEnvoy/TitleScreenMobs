@@ -14,6 +14,11 @@ jsonlang {
 
 repositories {
     maven("https://maven.parchmentmc.org") { name = "ParchmentMC" }
+    maven("https://api.modrinth.com/maven") { name = "Modrinth Maven" }
+}
+
+dependencies {
+    implementation("maven.modrinth:jupiter:${property("deps.jupiter")}")
 }
 
 neoForge {

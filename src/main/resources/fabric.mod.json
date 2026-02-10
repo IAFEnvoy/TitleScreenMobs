@@ -13,10 +13,17 @@
   "description": "${mod_description}",
   "icon": "${mod_logo}",
   "license": "${mod_license}",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
+    "client": [
+      "com.iafenvoy.tsm._loader.fabric.TitleScreenMobsFabricClient"
+    ],
+    "modmenu": [
+      "com.iafenvoy.tsm._loader.fabric.compat.ModMenu"
+    ]
   },
   "mixins": [
+    "title_screen_mobs.mixins.json"
   ],
   "depends": {
     "minecraft": [${supported_minecraft_versions}]

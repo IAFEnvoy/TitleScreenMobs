@@ -1,0 +1,17 @@
+{
+  "config.title_screen_mobs.general.blacklist": "生物黑名单",
+  "config.title_screen_mobs.general.left.scale": "左侧玩家缩放",
+  "config.title_screen_mobs.general.left.visible": "左侧玩家是否显示",
+  "config.title_screen_mobs.general.left.xOffset": "左侧玩家X位移",
+  "config.title_screen_mobs.general.left.yOffset": "左侧玩家Y位移",
+  "config.title_screen_mobs.general.right.scale": "右侧生物缩放",
+  "config.title_screen_mobs.general.right.visible": "右侧生物是否显示",
+  "config.title_screen_mobs.general.right.xOffset": "右侧生物X位移",
+  "config.title_screen_mobs.general.right.yOffset": "右侧生物Y位移",
+  "config.title_screen_mobs.general.sendWarning": "显示警告",
+  "config.title_screen_mobs.general.title": "通用",
+  "config.title_screen_mobs.general.whitelist": "生物白名单",
+  "config.title_screen_mobs.title": "主界面生物渲染配置",
+  "toast.title_screen_mobs.warning.description": "查看日志以获取更多信息",
+  "toast.title_screen_mobs.warning.title": "警告：TSM渲染出现错误"
+}
