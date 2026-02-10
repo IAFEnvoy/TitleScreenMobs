@@ -5,9 +5,15 @@ import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.player.Input;
+//? >=1.21.6 {
+//import net.minecraft.world.entity.player.Input;
+//?}
 import net.minecraft.world.entity.player.PlayerModelPart;
-import net.minecraft.world.entity.player.PlayerSkin;
+//? >=1.21.9 {
+//import net.minecraft.world.entity.player.PlayerSkin;
+//?} else {
+import net.minecraft.client.resources.PlayerSkin;
+//?}
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -18,11 +24,11 @@ public class CursedLocalPlayer extends LocalPlayer {
     public static final CursedLocalPlayer INSTANCE = new CursedLocalPlayer();
     private PlayerSkin skinTextures = null;
 
-    @SuppressWarnings("DataFlowIssue")
+    /*? >=1.21.9 {*//*@SuppressWarnings("DataFlowIssue")*//*?}*/
     private CursedLocalPlayer() {
-        super(Minecraft.getInstance(), CursedClientLevel.INSTANCE, CursedClientPacketListener.INSTANCE, null, null, Input.EMPTY, false);
+        super(Minecraft.getInstance(), CursedClientLevel.INSTANCE, CursedClientPacketListener.INSTANCE, null, null,/*? >=1.21.6 {*//* Input.EMPTY*//*?} else {*/false/*?}*/, false);
         this.setUUID(UUID.randomUUID());
-        Minecraft.getInstance().getSkinManager().get(this.getGameProfile()).thenAccept(textures -> this.skinTextures = textures.orElse(DefaultPlayerSkin.get(this.getGameProfile())));
+        Minecraft.getInstance().getSkinManager()./*? >=1.21.9 {*//*get*//*?} else {*/getOrLoad/*?}*/(this.getGameProfile()).thenAccept(textures -> this.skinTextures = textures/*? >=1.21.4 {*//*.orElse(DefaultPlayerSkin.get(this.getGameProfile()))*//*?}*/);
     }
 
     @Override

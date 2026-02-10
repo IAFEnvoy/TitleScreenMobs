@@ -19,13 +19,13 @@ public class CursedClientLevel extends ClientLevel {
                 CursedClientPacketListener.INSTANCE,
                 new ClientLevelData(Difficulty.EASY, false, true),
                 ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(TitleScreenMobs.MOD_ID, "dummy")),
-                CursedRegistries.CURSED_DIMENSION_TYPE_REGISTRY.getOrThrow(ResourceKey.create(Registries.DIMENSION_TYPE, ResourceLocation.fromNamespaceAndPath(TitleScreenMobs.MOD_ID, "dummy"))),
+                CursedRegistries.CURSED_DIMENSION_TYPE_REGISTRY./*? >=1.21.2 {*//*getOrThrow*//*?} else {*/getHolderOrThrow/*?}*/(ResourceKey.create(Registries.DIMENSION_TYPE, ResourceLocation.fromNamespaceAndPath(TitleScreenMobs.MOD_ID, "dummy"))),
                 0,
                 0,
+                /*? <=1.21.1 {*/() -> Minecraft.getInstance().getProfiler(),/*?}*/
                 Minecraft.getInstance().levelRenderer,
                 false,
-                0L,
-                60
+                0L/*? >=1.21.2 {*//*, 60*//*?}*/
         );
     }
 }

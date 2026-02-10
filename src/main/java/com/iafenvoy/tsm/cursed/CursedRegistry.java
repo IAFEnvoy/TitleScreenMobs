@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 @SuppressWarnings("deprecation")
-public class CursedRegistry<T> extends DefaultedMappedRegistry<T> {
+public class CursedRegistry<T> extends DefaultedMappedRegistry<T> implements HolderOwner<T> {
     private final T defaultValue;
 
     public CursedRegistry(ResourceKey<? extends Registry<T>> key, ResourceLocation defaultId, T defaultValue) {
@@ -25,7 +25,7 @@ public class CursedRegistry<T> extends DefaultedMappedRegistry<T> {
     }
 
     @Override
-    public @NotNull Optional<Holder.Reference<T>> get(ResourceKey<T> key) {
+    public @NotNull Optional<Holder.Reference<T>> /*? >=1.21.2 {*//*get*//*?} else {*/getHolder/*?}*/(ResourceKey<T> key) {
         return Optional.of(this.createIntrusiveHolder(this.defaultValue));
     }
 }

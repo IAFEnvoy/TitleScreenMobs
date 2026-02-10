@@ -4,11 +4,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.client.multiplayer.CommonListenerCookie;
-import net.minecraft.client.multiplayer.LevelLoadTracker;
+//? >=1.21.9 {
+//import net.minecraft.client.multiplayer.LevelLoadTracker;
+//?}
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.PacketFlow;
+import net.minecraft.server.ServerLinks;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +28,7 @@ public class CursedClientPacketListener extends ClientPacketListener {
                 Minecraft.getInstance(),
                 new Connection(PacketFlow.CLIENTBOUND),
                 new CommonListenerCookie(
-                        new LevelLoadTracker(),
+                        /*? >=1.21.9 {*//*new LevelLoadTracker(),*//*?}*/
                         Minecraft.getInstance().getGameProfile(),
                         Minecraft.getInstance().getTelemetryManager().createWorldSessionManager(true, Duration.ZERO, null),
                         CursedRegistries.CURSED_REGISTRY_MANAGER,
@@ -35,10 +38,9 @@ public class CursedClientPacketListener extends ClientPacketListener {
                         null,
                         Map.of(),
                         new ChatComponent.State(List.of(), List.of(), List.of()),
+                        /*? <=1.21.1 {*/false,/*?}*/
                         Map.of(),
-                        net.minecraft.server.ServerLinks.EMPTY,
-                        Map.of(),
-                        false
+                        ServerLinks.EMPTY/*? >=1.21.9 {*//*, Map.of(), false*//*?}*/
                 )
         );
     }

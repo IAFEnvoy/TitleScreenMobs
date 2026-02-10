@@ -37,7 +37,7 @@ public final class CursedRegistries {
         @SuppressWarnings({"unchecked", "rawtypes"})
         @Override
         public @NotNull Optional<Registry> lookup(ResourceKey key) {
-            var x = BuiltInRegistries.REGISTRY.getValue(key);
+            Registry x = BuiltInRegistries.REGISTRY./*? >=1.21.2 {*//*getValue*//*?} else {*/get/*?}*/(key);
             if (x != null)
                 return Optional.of(x);
             else if (Registries.DAMAGE_TYPE.equals(key))
@@ -53,14 +53,22 @@ public final class CursedRegistries {
             return Optional.empty();
         }
 
-        @SuppressWarnings({"rawtypes", "unchecked", "UnnecessaryLocalVariable"})
+        //? >=1.21.2 {
+//        @SuppressWarnings({"rawtypes", "unchecked", "UnnecessaryLocalVariable"})
+//        @Override
+//        public <E> @NotNull Registry<E> lookupOrThrow(ResourceKey<? extends Registry<? extends E>> key) {
+//            return this.lookup(key).orElseGet(() -> {
+//                ResourceKey sillyKey = key;
+//                return new CursedRegistry<>(sillyKey, ResourceLocation.fromNamespaceAndPath(TitleScreenMobs.MOD_ID, "fake"), null);
+//            });
+//        }
+        //?} else {
+        @SuppressWarnings("unchecked")
         @Override
-        public <E> @NotNull Registry<E> lookupOrThrow(ResourceKey<? extends Registry<? extends E>> key) {
-            return this.lookup(key).orElseGet(() -> {
-                ResourceKey sillyKey = key;
-                return new CursedRegistry<>(sillyKey, ResourceLocation.fromNamespaceAndPath(TitleScreenMobs.MOD_ID, "fake"), null);
-            });
+        public <E> @NotNull Optional<Registry<E>> registry(ResourceKey<? extends Registry<? extends E>> key) {
+            return this.lookup(key).map(x->x);
         }
+        //?}
 
         @Override
         public @NotNull Stream<RegistryEntry<?>> registries() {
@@ -84,7 +92,7 @@ public final class CursedRegistries {
                 BlockTags.INFINIBURN_OVERWORLD,
                 BuiltinDimensionTypes.OVERWORLD_EFFECTS,
                 0.0f,
-                Optional.empty(),
+                /*? >=1.21.6 {*//*Optional.empty(),*//*?}*/
                 new DimensionType.MonsterSettings(
                         false,
                         true,

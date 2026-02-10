@@ -9,7 +9,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.client.input.MouseButtonEvent;
+//? >=1.21.9 {
+//import net.minecraft.client.input.MouseButtonEvent;
+//?}
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -53,10 +55,10 @@ public class TitleScreenMixin {
 
     @Inject(method = "mouseClicked", at = @At("RETURN"))
             //? >=1.21.9 {
-    private void handleFoxClick(MouseButtonEvent event, boolean isDoubleClick, CallbackInfoReturnable<Boolean> cir) {
+    /*private void handleFoxClick(MouseButtonEvent event, boolean isDoubleClick, CallbackInfoReturnable<Boolean> cir) {
         double mouseX = event.x(), mouseY = event.y();
-        //?} else {
-//    private void handleFoxClick(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+        *///?} else {
+    private void handleFoxClick(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
         //?}
         TitleScreen sc = (TitleScreen) (Object) this;
         if (Minecraft.getInstance() != null) {
