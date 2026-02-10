@@ -25,7 +25,7 @@ public class CursedRegistry<T> extends DefaultedMappedRegistry<T> implements Hol
     }
 
     @Override
-    public @NotNull Optional<Holder.Reference<T>> /*? >=1.21.2 {*//*get*//*?} else {*/getHolder/*?}*/(ResourceKey<T> key) {
+    public @NotNull Optional<Holder.Reference<T>> /*? >=1.21.2 {*/get/*?} else {*//*getHolder*//*?}*/(ResourceKey<T> key) {
         return Optional.of(this.createIntrusiveHolder(this.defaultValue));
     }
 }

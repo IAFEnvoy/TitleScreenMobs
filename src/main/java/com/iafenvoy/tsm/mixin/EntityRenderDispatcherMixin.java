@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class EntityRenderDispatcherMixin {
     //Mojang has solved this issue in `EntityRenderer.extractRenderState` since 1.21.9 so we only need to mixin before 1.21.8
     //? <=1.21.8 {
-    @Shadow
+    /*@Shadow
     @Nullable
     public Camera camera;
 
@@ -22,5 +22,5 @@ public class EntityRenderDispatcherMixin {
     private void wrapCameraDistance(Entity entity, CallbackInfoReturnable<Double> cir) {
         if (this.camera == null) cir.setReturnValue(4096.0);
     }
-    //?}
+    *///?}
 }

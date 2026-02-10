@@ -7,7 +7,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 //? >=1.21.2 {
-//import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.EntitySpawnReason;
 //?}
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,7 +23,7 @@ public class RenderHelper {
     private static final List<? extends EntityType<?>> ALLOW_ENTITIES;
 
     static {
-        List<? extends EntityType<?>> collect = TSMConfig.INSTANCE.general.whitelist.getValue().stream().map(ResourceLocation::tryParse).map(BuiltInRegistries.ENTITY_TYPE::/*? >=1.21.2 {*//*getValue*//*?} else {*/get/*?}*/).toList();
+        List<? extends EntityType<?>> collect = TSMConfig.INSTANCE.general.whitelist.getValue().stream().map(ResourceLocation::tryParse).map(BuiltInRegistries.ENTITY_TYPE::/*? >=1.21.2 {*/getValue/*?} else {*//*get*//*?}*/).toList();
         if (collect.isEmpty())
             collect = BuiltInRegistries.ENTITY_TYPE.stream().filter((e) -> !TSMConfig.INSTANCE.general.blacklist.getValue().contains(BuiltInRegistries.ENTITY_TYPE.getKey(e).toString())).toList();
         ALLOW_ENTITIES = collect;
@@ -39,7 +39,7 @@ public class RenderHelper {
                 ToastHelper.sendWarningWithCheck();
             }
             if (enableRight && livingEntity == null) {
-                Entity entity = ALLOW_ENTITIES.get(RANDOM.nextInt(ALLOW_ENTITIES.size())).create(CursedClientLevel.INSTANCE/*? >=1.21.2 {*//*, EntitySpawnReason.MOB_SUMMONED*//*?}*/);
+                Entity entity = ALLOW_ENTITIES.get(RANDOM.nextInt(ALLOW_ENTITIES.size())).create(CursedClientLevel.INSTANCE/*? >=1.21.2 {*/, EntitySpawnReason.MOB_SUMMONED/*?}*/);
                 if (entity instanceof LivingEntity living) livingEntity = living;
             }
         }

@@ -1,7 +1,7 @@
 package com.iafenvoy.tsm._loader.forge;
 
 //? forge {
-import com.iafenvoy.jupiter.ConfigManager;
+/*import com.iafenvoy.jupiter.ConfigManager;
 import com.iafenvoy.jupiter.render.screen.ConfigContainerScreen;
 import com.iafenvoy.tsm.TSMConfig;
 import com.iafenvoy.tsm.TitleScreenMobs;
@@ -22,3 +22,4 @@ public final class TitleScreenMobsForgeClient {
         ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () -> new ConfigScreenHandler.ConfigScreenFactory((minecraft, parent) -> new ConfigContainerScreen(parent, TSMConfig.INSTANCE, true)));
     }
 }
+*/
