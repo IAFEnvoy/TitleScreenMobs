@@ -1,5 +1,6 @@
 package com.iafenvoy.tsm.cursed;
 
+import com.iafenvoy.jupiter.util.RLUtil;
 import com.iafenvoy.tsm.TitleScreenMobs;
 import com.mojang.serialization.Lifecycle;
 import net.minecraft.core.DefaultedMappedRegistry;
@@ -9,7 +10,6 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.damagesource.DamageScaling;
@@ -28,11 +28,11 @@ import java.util.stream.Stream;
 
 public final class CursedRegistries {
     public static final Registry<DimensionType> CURSED_DIMENSION_TYPE_REGISTRY = new MappedRegistry<>(Registries.DIMENSION_TYPE, Lifecycle.stable());
-    private static final Registry<Biome> CURSED_BIOME_REGISTRY = new CursedRegistry<>(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(TitleScreenMobs.MOD_ID, "fake_biomes"), null);
+    private static final Registry<Biome> CURSED_BIOME_REGISTRY = new CursedRegistry<>(Registries.BIOME, RLUtil.id(TitleScreenMobs.MOD_ID, "fake_biomes"), null);
     private static final Registry<BannerPattern> CURSED_BANNER_REGISTRY = new DefaultedMappedRegistry<>("dummy", Registries.BANNER_PATTERN, Lifecycle.stable(), true);
     public static final RegistryAccess.Frozen CURSED_REGISTRY_MANAGER = new RegistryAccess.Frozen() {
-        private final CursedRegistry<DamageType> damageTypes = new CursedRegistry<>(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(TitleScreenMobs.MOD_ID, "fake_damage"), new DamageType("", DamageScaling.NEVER, 0));
-        private final CursedRegistry<Item> items = new CursedRegistry<>(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(TitleScreenMobs.MOD_ID, "fake_items"), Items.AIR);
+        private final CursedRegistry<DamageType> damageTypes = new CursedRegistry<>(Registries.DAMAGE_TYPE, RLUtil.id(TitleScreenMobs.MOD_ID, "fake_damage"), new DamageType("", DamageScaling.NEVER, 0));
+        private final CursedRegistry<Item> items = new CursedRegistry<>(Registries.ITEM, RLUtil.id(TitleScreenMobs.MOD_ID, "fake_items"), Items.AIR);
 
         @SuppressWarnings({"unchecked", "rawtypes"})
         @Override
@@ -77,7 +77,7 @@ public final class CursedRegistries {
     };
 
     static {
-        Registry.register(CURSED_DIMENSION_TYPE_REGISTRY, ResourceLocation.fromNamespaceAndPath(TitleScreenMobs.MOD_ID, "dummy"), new DimensionType(
+        Registry.register(CURSED_DIMENSION_TYPE_REGISTRY, RLUtil.id(TitleScreenMobs.MOD_ID, "dummy"), new DimensionType(
                 OptionalLong.of(6000L),
                 true,
                 false,

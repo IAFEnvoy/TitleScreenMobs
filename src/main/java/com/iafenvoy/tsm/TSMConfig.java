@@ -2,7 +2,7 @@ package com.iafenvoy.tsm;
 
 import com.iafenvoy.jupiter.config.container.AutoInitConfigContainer;
 import com.iafenvoy.jupiter.config.entry.*;
-import net.minecraft.resources.ResourceLocation;
+import com.iafenvoy.jupiter.util.RLUtil;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class TSMConfig extends AutoInitConfigContainer {
     public final General general = new General();
 
     public TSMConfig() {
-        super(ResourceLocation.fromNamespaceAndPath(TitleScreenMobs.MOD_ID, "client"), "config.%s.title".formatted(TitleScreenMobs.MOD_ID), "./config/title-screen-mobs.json");
+        super(RLUtil.id(TitleScreenMobs.MOD_ID, "client"), "config.%s.title".formatted(TitleScreenMobs.MOD_ID), "./config/title-screen-mobs.json");
     }
 
     private static String formatKey(String id) {

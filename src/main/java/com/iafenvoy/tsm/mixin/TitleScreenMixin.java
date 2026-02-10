@@ -33,7 +33,7 @@ public class TitleScreenMixin {
             if (config.general.leftVisible.getValue() && RenderHelper.enableLeft)
                 try {
                     int x = sc.width / 2 - 160 + config.general.leftXOffset.getValue(), y = sc.height / 4 + 100 + config.general.leftYOffset.getValue(), a = config.general.leftScale.getValue() * 3;
-                    InventoryScreen.renderEntityInInventoryFollowsMouse(context, x - a, y - a, x + a, y + a, config.general.leftScale.getValue(), 0, mouseX, mouseY, CursedLocalPlayer.INSTANCE);
+                    InventoryScreen.renderEntityInInventoryFollowsMouse(context,/*? >=1.20.2 {*//* x - a, y - a, x + a, y + a,*//*?} else {*/ x, y,/*?}*/ config.general.leftScale.getValue(),/*? >=1.20.2 {*//* 0, mouseX, mouseY,*//*?}*/ -mouseX + x, -mouseY + y - 30, CursedLocalPlayer.INSTANCE);
                 } catch (Throwable e) {
                     RenderHelper.enableLeft = false;
                     TitleScreenMobs.LOGGER.error("Failed to render player on title screen, disabling", e);
@@ -42,7 +42,7 @@ public class TitleScreenMixin {
             if (RenderHelper.livingEntity != null && config.general.rightVisible.getValue() && RenderHelper.enableRight) {
                 try {
                     int x = sc.width / 2 + 160 + config.general.rightXOffset.getValue(), y = sc.height / 4 + 100 + config.general.rightYOffset.getValue(), a = config.general.rightScale.getValue() * 3;
-                    InventoryScreen.renderEntityInInventoryFollowsMouse(context, x - a, y - a, x + a, y + a, config.general.rightScale.getValue(), 0, mouseX, mouseY, RenderHelper.livingEntity);
+                    InventoryScreen.renderEntityInInventoryFollowsMouse(context,/*? >=1.20.2 {*//* x - a, y - a, x + a, y + a,*//*?} else {*/ x, y,/*?}*/ config.general.rightScale.getValue(),/*? >=1.20.2 {*//* 0, mouseX, mouseY,*//*?}*/ -mouseX + x, -mouseY + y - 30, RenderHelper.livingEntity);
                 } catch (Throwable e) {
                     RenderHelper.livingEntity = null;
                     RenderHelper.enableRight = false;
