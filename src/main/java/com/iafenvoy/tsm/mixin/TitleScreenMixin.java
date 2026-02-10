@@ -4,7 +4,7 @@ import com.iafenvoy.tsm.RenderHelper;
 import com.iafenvoy.tsm.TitleScreenMobs;
 import com.iafenvoy.tsm.ToastHelper;
 import com.iafenvoy.tsm.TSMConfig;
-import com.iafenvoy.tsm.cursed.DummyClientPlayerEntity;
+import com.iafenvoy.tsm.cursed.DummyLocalPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.TitleScreen;
@@ -30,7 +30,7 @@ public class TitleScreenMixin {
         TitleScreen sc = (TitleScreen) (Object) this;
         TSMConfig config = TSMConfig.INSTANCE;
         if (Minecraft.getInstance() != null) {
-            LocalPlayer player = DummyClientPlayerEntity.getInstance();
+            LocalPlayer player = DummyLocalPlayer.getInstance();
             int height = sc.height / 4 + 132;
             int playerX = sc.width / 2 - 160;
             if (config.general.leftVisible.getValue() && RenderHelper.enableLeft)

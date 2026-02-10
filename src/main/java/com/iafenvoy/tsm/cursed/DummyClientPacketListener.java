@@ -39,7 +39,7 @@ import java.util.Optional;
 import java.util.OptionalLong;
 import java.util.stream.Stream;
 
-public class DummyClientPlayNetworkHandler extends ClientPacketListener {
+public class DummyClientPacketListener extends ClientPacketListener {
     public static final Registry<DimensionType> CURSED_DIMENSION_TYPE_REGISTRY = new MappedRegistry<>(Registries.DIMENSION_TYPE, Lifecycle.stable());
 
     static {
@@ -68,10 +68,10 @@ public class DummyClientPlayNetworkHandler extends ClientPacketListener {
         ));
     }
 
-    private static DummyClientPlayNetworkHandler instance;
+    private static DummyClientPacketListener instance;
 
-    public static DummyClientPlayNetworkHandler getInstance() {
-        if (instance == null) instance = new DummyClientPlayNetworkHandler();
+    public static DummyClientPacketListener getInstance() {
+        if (instance == null) instance = new DummyClientPacketListener();
         return instance;
     }
 
@@ -122,7 +122,7 @@ public class DummyClientPlayNetworkHandler extends ClientPacketListener {
         }
     };
 
-    private DummyClientPlayNetworkHandler() {
+    private DummyClientPacketListener() {
         super(
                 Minecraft.getInstance(),
                 new Connection(PacketFlow.CLIENTBOUND),

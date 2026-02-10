@@ -15,18 +15,18 @@ import org.jetbrains.annotations.Nullable;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class DummyClientPlayerEntity extends LocalPlayer {
-    private static DummyClientPlayerEntity instance;
+public class DummyLocalPlayer extends LocalPlayer {
+    private static DummyLocalPlayer instance;
     private PlayerSkin skinTextures = null;
     public Function<EquipmentSlot, ItemStack> equippedStackSupplier = slot -> ItemStack.EMPTY;
 
-    public static DummyClientPlayerEntity getInstance() {
-        if (instance == null) instance = new DummyClientPlayerEntity();
+    public static DummyLocalPlayer getInstance() {
+        if (instance == null) instance = new DummyLocalPlayer();
         return instance;
     }
 
-    private DummyClientPlayerEntity() {
-        super(Minecraft.getInstance(), DummyClientWorld.getInstance(), DummyClientPlayNetworkHandler.getInstance(), null, null, Input.EMPTY, false);
+    private DummyLocalPlayer() {
+        super(Minecraft.getInstance(), DummyClientLevel.getInstance(), DummyClientPacketListener.getInstance(), null, null, Input.EMPTY, false);
         this.setUUID(UUID.randomUUID());
         Minecraft.getInstance().getSkinManager().get(this.getGameProfile()).thenAccept(textures -> this.skinTextures = textures.orElse(DefaultPlayerSkin.get(this.getGameProfile())));
     }

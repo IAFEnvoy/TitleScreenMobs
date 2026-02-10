@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 
 @SuppressWarnings("deprecation")
 public record CursedRegistry<T>(ResourceKey<? extends Registry<T>> registryKey, ResourceLocation defaultId,
-                                T defaultValue) implements Registry<T>, HolderOwner<T> {
+                                T defaultValue) implements Registry<T> {
     @Override
     public @NotNull ResourceKey<? extends Registry<T>> key() {
         return this.registryKey;

@@ -4,7 +4,7 @@ This is the high version port of [Mobs Main Menu](https://www.curseforge.com/min
 
 This mod add mobs render in title screen.
 
-![](img/1.webp)
+![](https://raw.githubusercontent.com/IAFEnvoy/TitleScreenMobs/refs/heads/main/img/1.webp)
 
 ## Configuration
 
