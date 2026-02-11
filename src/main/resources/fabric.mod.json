@@ -26,6 +26,7 @@
     "title_screen_mobs.mixins.json"
   ],
   "depends": {
-    "minecraft": [${supported_minecraft_versions}]
+    "minecraft": [${supported_minecraft_versions}],
+    "jupiter": ">=2.3.5"
   }
 }

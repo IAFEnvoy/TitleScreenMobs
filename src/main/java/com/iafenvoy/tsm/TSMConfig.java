@@ -1,5 +1,6 @@
 package com.iafenvoy.tsm;
 
+import com.iafenvoy.jupiter.config.ConfigGroup;
 import com.iafenvoy.jupiter.config.container.AutoInitConfigContainer;
 import com.iafenvoy.jupiter.config.entry.*;
 import com.iafenvoy.jupiter.util.RLUtil;

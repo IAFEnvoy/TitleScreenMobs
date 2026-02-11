@@ -19,7 +19,6 @@ public class RenderHelper {
     public static boolean enableLeft = true, enableRight = true;
     private static final Random RANDOM = new Random();
     public static LivingEntity livingEntity = null;
-    public static boolean foxRotate = false, isNeoForge = false;
     private static final List<? extends EntityType<?>> ALLOW_ENTITIES;
 
     static {
@@ -43,6 +42,5 @@ public class RenderHelper {
                 if (entity instanceof LivingEntity living) livingEntity = living;
             }
         }
-        if (!(Minecraft.getInstance().screen instanceof TitleScreen)) foxRotate = false;
     }
 }

@@ -22,3 +22,8 @@ side = "BOTH"
 modId = "minecraft"
 mandatory = true
 versionRange = "${supported_minecraft_versions}"
+
+[[dependencies.${mod_id}]]
+modId = "jupiter"
+mandatory = true
+versionRange = "[2.3.5,)"

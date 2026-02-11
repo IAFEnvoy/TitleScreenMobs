@@ -23,5 +23,10 @@ modId = "minecraft"
 type = "required"
 versionRange = "${supported_minecraft_versions}"
 
+[[dependencies.${mod_id}]]
+modId = "jupiter"
+type = "required"
+versionRange = "[2.3.5,)"
+
 [[mixins]]
 config = "title_screen_mobs.mixins.json"
