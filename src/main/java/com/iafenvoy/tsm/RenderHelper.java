@@ -37,10 +37,13 @@ public class RenderHelper {
                 TitleScreenMobs.LOGGER.error("Failed to create fake world, disable title screen mobs rendering.", e);
                 ToastHelper.sendWarningWithCheck();
             }
-            if (enableRight && livingEntity == null) {
-                Entity entity = ALLOW_ENTITIES.get(RANDOM.nextInt(ALLOW_ENTITIES.size())).create(CursedClientLevel.INSTANCE/*? >=1.21.2 {*/, EntitySpawnReason.MOB_SUMMONED/*?}*/);
-                if (entity instanceof LivingEntity living) livingEntity = living;
-            }
+            if (enableRight && livingEntity == null)
+                try {
+                    Entity entity = ALLOW_ENTITIES.get(RANDOM.nextInt(ALLOW_ENTITIES.size())).create(CursedClientLevel.INSTANCE/*? >=1.21.2 {*/, EntitySpawnReason.MOB_SUMMONED/*?}*/);
+                    if (entity instanceof LivingEntity living) livingEntity = living;
+                } catch (Exception e) {
+                    TitleScreenMobs.LOGGER.error("Failed to create fake entity.", e);
+                }
         }
     }
 }
