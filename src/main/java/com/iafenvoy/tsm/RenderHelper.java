@@ -14,9 +14,11 @@ import java.util.List;
 import java.util.Random;
 
 public class RenderHelper {
+    public static final int MAX_RIGHT_ATTEMPTS = 10;
     public static boolean enableLeft = true, enableRight = true;
     private static final Random RANDOM = new Random();
     public static LivingEntity livingEntity = null;
+    private static int rightAttempts = 0;
     private static final List<? extends EntityType<?>> ALLOW_ENTITIES;
 
     static {
@@ -24,6 +26,26 @@ public class RenderHelper {
         if (collect.isEmpty())
             collect = BuiltInRegistries.ENTITY_TYPE.stream().filter((e) -> !TSMConfig.INSTANCE.general.blacklist.getValue().contains(BuiltInRegistries.ENTITY_TYPE.getKey(e).toString())).toList();
         ALLOW_ENTITIES = collect;
+    }
+
+    public static void resetRightAttempts() {
+        rightAttempts = 0;
+    }
+
+    /**
+     * Records a failed attempt to create or render the right-side mob and drops the current one.
+     *
+     * @return whether another attempt is allowed; disables the right side when exhausted
+     */
+    public static boolean onRightAttemptFailed() {
+        livingEntity = null;
+        if (++rightAttempts < MAX_RIGHT_ATTEMPTS) return true;
+        enableRight = false;
+        return false;
+    }
+
+    public static int getRightAttempts() {
+        return rightAttempts;
     }
 
     public static void endClientTick() {
@@ -44,7 +66,12 @@ public class RenderHelper {
                         livingEntity = living;
                     }
                 } catch (Exception e) {
-                    TitleScreenMobs.LOGGER.error("Failed to create fake entity.", e);
+                    if (RenderHelper.onRightAttemptFailed())
+                        TitleScreenMobs.LOGGER.warn("Failed to create fake entity, re-rolling ({}/{}).", RenderHelper.getRightAttempts(), MAX_RIGHT_ATTEMPTS, e);
+                    else {
+                        TitleScreenMobs.LOGGER.error("Failed to create fake entity after {} attempts, disabling right-side mob rendering.", MAX_RIGHT_ATTEMPTS, e);
+                        ToastHelper.sendWarningWithCheck();
+                    }
                 }
         }
     }

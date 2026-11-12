@@ -19,6 +19,7 @@ public class TitleScreenMixin {
     @Inject(method = "<init>*", at = @At("RETURN"))
     private void resetEntity(CallbackInfo ci) {
         RenderHelper.livingEntity = null;
+        RenderHelper.resetRightAttempts();
     }
 
     @Inject(method = "extractRenderState", at = @At("RETURN"))
@@ -39,11 +40,14 @@ public class TitleScreenMixin {
                 try {
                     int x = sc.width / 2 + 160 + config.general.rightXOffset.getValue(), y = sc.height / 4 + 100 + config.general.rightYOffset.getValue(), a = config.general.rightScale.getValue() * 3;
                     InventoryScreen.extractEntityInInventoryFollowsMouse(context, x - a, y - a, x + a, y + a, config.general.rightScale.getValue(), 0, mouseX, mouseY, RenderHelper.livingEntity);
+                    RenderHelper.resetRightAttempts();
                 } catch (Throwable e) {
-                    RenderHelper.livingEntity = null;
-                    RenderHelper.enableRight = false;
-                    TitleScreenMobs.LOGGER.error("Failed to render entity on title screen, disabling", e);
-                    ToastHelper.sendWarningWithCheck();
+                    if (RenderHelper.onRightAttemptFailed())
+                        TitleScreenMobs.LOGGER.warn("Failed to render entity on title screen, re-rolling ({}/{}).", RenderHelper.getRightAttempts(), RenderHelper.MAX_RIGHT_ATTEMPTS, e);
+                    else {
+                        TitleScreenMobs.LOGGER.error("Failed to render entity on title screen after {} attempts, disabling right-side mob rendering", RenderHelper.MAX_RIGHT_ATTEMPTS, e);
+                        ToastHelper.sendWarningWithCheck();
+                    }
                 }
             }
         }
