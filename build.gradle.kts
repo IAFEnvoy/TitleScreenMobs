@@ -118,6 +118,5 @@ publishMods {
         minecraftVersions.addAll(supportedMinecraftVersions)
         requires("jupiter")
         clientRequired = true
-        serverRequired = true
     }
 }
