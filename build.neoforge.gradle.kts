@@ -14,11 +14,11 @@ jsonlang {
 
 repositories {
     maven("https://maven.parchmentmc.org") { name = "ParchmentMC" }
-    maven("https://api.modrinth.com/maven") { name = "Modrinth Maven" }
+    maven("https://cursemaven.com") { name = "CurseMaven" }
 }
 
 dependencies {
-    implementation("maven.modrinth:jupiter:${property("deps.jupiter")}")
+    implementation("curse.maven:jupiter-1072905:${property("deps.jupiter")}")
 }
 
 neoForge {
@@ -116,17 +116,11 @@ publishMods {
     changelog = provider { rootProject.file("CHANGELOG.md").readText() }
     modLoaders.add("neoforge")
 
-    modrinth {
-        projectId = property("publish.modrinth") as String
-        accessToken = env.MODRINTH_API_KEY.orNull()
-        minecraftVersions.addAll(supportedMinecraftVersions)
-        requires("jupiter")
-    }
-
     curseforge {
         projectId = property("publish.curseforge") as String
         accessToken = env.CURSEFORGE_API_KEY.orNull()
         minecraftVersions.addAll(supportedMinecraftVersions)
         requires("jupiter")
+        clientRequired = true
     }
 }
